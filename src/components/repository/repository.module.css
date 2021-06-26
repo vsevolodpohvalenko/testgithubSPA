@@ -1,0 +1,121 @@
+.repo_wrapper{
+    position: relative;
+    background: #0d1117;
+    min-width: 100vw;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-row-gap: 16px;
+    grid-column-gap: 16px;
+    color: white
+}
+
+
+.back{
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    
+}
+.back a{
+    color: #58a6ff;
+    font-size: 24px;
+}
+
+.link{
+    text-decoration: none;
+}
+
+.repo_icon{
+    font-size: 200px;
+}
+
+.user_avatar{
+    width: 280px;
+    border-radius: 50%;
+}
+
+.user_data{
+    color: black;
+    text-align: center;
+    padding-top: 8%;
+}
+.user_data a{
+    color: white;
+}
+
+.repo_data_wrapper{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+}
+
+.repo_data{
+    text-align: left;
+}
+
+.btn.hover, .btn:hover, [open]>.btn {
+    background-color: #30363d;
+    border-color: #8b949e;
+    transition-duration: .1s;
+}
+.btn:hover {
+    text-decoration: none;
+}
+.btn_block {
+    display: block;
+    text-align: center;
+    width: 300px;
+}
+.btn {
+    margin: 10px 0;
+    background-color: #21262d;
+    border-color: #30363d;
+    box-shadow: #c9d1d9;
+    color: #c9d1d9;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    padding: 5px 16px;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.repo_data div{
+    font-size: 20px;
+    font-weight: 600;
+    color: #58a6ff;
+    padding: 20px 0;
+    border-bottom: 1px solid #30363d;
+}
+
+.repo_data a{
+    color: #58a6ff;
+}
+
+
+@media screen and (max-width: 767px) {
+    .repo_wrapper{
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
+    .repo_data{
+        text-align: center;
+        padding-bottom: 80px;
+    }
+}
