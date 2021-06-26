@@ -14,9 +14,8 @@ const SORT_BY_DATE_UP = 'SORT_BY_DATE_UP'
 const SORT_BY_RATING_DOWN = 'SORT_BY_RATING_DOWN'
 const SORT_BY_RATING_UP = 'SORT_BY_RATING_UP'
 
-type InitialStateType = {
-    total_count :number,
-    repos: Array<{
+export type RepoType = {
+    id:number
         html_url: string,
         description: string,
         created_at: string,
@@ -28,9 +27,58 @@ type InitialStateType = {
         full_name: string,
         stargazers_count: number,
         name:string,
+        clone_url: string,
+        private: boolean,
+        subscribers_count: number,
         owner: {
             avatar_url:string,
             login: string,
+            html_url: string,
+           
+        },
+        general_data:{
+            id: number,
+            name: string,
+            full_name: string,
+            private: false,
+            owner: {
+                login: string,
+                id: number,
+                avatar_url: string,
+                html_url: string,
+                type: string,
+            },
+     
+        organization: {
+            login: string,
+            id: number,
+            }
+        }
+}
+
+type InitialStateType = {
+    total_count :number,
+    repos: Array<{
+        id:number
+        html_url: string,
+        description: string,
+        created_at: string,
+        updated_at: string,
+        watchers_count: number,
+        language: string,
+        forks_count: number,
+        watchers: number,
+        full_name: string,
+        stargazers_count: number,
+        name:string,
+        clone_url: string,
+        private: boolean,
+        subscribers_count: number,
+        owner: {
+            avatar_url:string,
+            login: string,
+            html_url: string,
+           
         },
         general_data:{
             id: number,

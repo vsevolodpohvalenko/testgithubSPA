@@ -2,7 +2,7 @@ import {faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import s from '../main_page/main_page.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-export const Pagination = (props:any) => {
+export const Pagination = (props: {page:number, setPage: (page:any) => void, Search: () => void}) => {
     const lastPage = () => {
         if (props.page -4 < 1) {return 9}
         else if (props.page +4 > 100) {return 100}
