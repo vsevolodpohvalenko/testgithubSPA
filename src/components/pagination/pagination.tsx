@@ -2,7 +2,7 @@ import {faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import s from '../main_page/main_page.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-export const Pagination = (props: {page:number, setPage: (page:any) => void, Search: () => void}) => {
+export const Pagination = (props: {page:number, setPage: (page:any) => void, Search: (page:number) => void}) => {
     const lastPage = () => {
         if (props.page -4 < 1) {return 9}
         else if (props.page +4 > 100) {return 100}
@@ -19,22 +19,22 @@ export const Pagination = (props: {page:number, setPage: (page:any) => void, Sea
 
     const onPageClick = (page_number:number) => {
         props.setPage(page_number)
-        props.Search()
+        props.Search(page_number)
     }
 
     const ArrowLeft = () => {
         props.page > 1 && props.setPage(props.page-1)
-        props.Search()
+        props.Search(props.page-1)
     }
 
     const ArrowRight = () => {
         props.page < 100 && props.setPage(props.page+1)
-        props.Search()
+        props.Search(props.page+1)
     }
 
     return <div className={s.pagination}>
         <span className={s.arrow_wrapper} onClick={() => ArrowLeft()}><FontAwesomeIcon icon={faChevronLeft}/></span>
-            {pages.slice(prevPage(), lastPage()).map((e:number) => <div  onClick={() => onPageClick(e)} className={[s.page, props.page == e && s.current].join(" ")}>{e}</div>)}
+            {pages.slice(prevPage(), lastPage()).map((e:number, i:number) => <div key={i} onClick={() => onPageClick(e)} className={[s.page, Number(props.page) === Number(e) && s.current].join(" ")}>{e}</div>)}
             <span className={s.arrow_wrapper} onClick={() => ArrowRight()}><FontAwesomeIcon  icon={faChevronRight}/></span>
     </div>
 }

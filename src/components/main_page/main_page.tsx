@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {actions, getReposThunk, RepoType} from "../../store/git_reducer";
 import {AppStateType} from "../../store/store";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faStar} from '@fortawesome/free-regular-svg-icons'
 import {
     faSearch,
     faSortAlphaDown,
@@ -12,7 +11,7 @@ import {
     faSortNumericDown,
     faSortNumericUp,
     faSortAmountUp,
-    faSortAmountDown
+    faSortAmountDown,
 } from '@fortawesome/free-solid-svg-icons'
 import {faGithub} from '@fortawesome/free-brands-svg-icons'
 import {Link} from "react-router-dom";
@@ -20,6 +19,7 @@ import {useAlert} from "react-alert";
 import {motion} from 'framer-motion'
 import {settings} from '../../App';
 import {Pagination} from '../pagination/pagination';
+import { useEffect } from 'react';
 
 export const Animate = (event: any) => {
     event.target.style = ' ';
@@ -36,7 +36,12 @@ export const MainPage = () => {
     const [sortRating, setSortRating] = useState(true)
 
     const alert = useAlert();
-
+    
+    useEffect(() => {
+        localStorage.getItem('followed') == undefined && localStorage.setItem('followed', JSON.stringify([]))
+        localStorage.getItem('title') == undefined && localStorage.setItem('title', "")
+    
+    }, [])
 
     const dispatch = useDispatch()
 
@@ -45,7 +50,7 @@ export const MainPage = () => {
     const onChangeHandle = (e: any) => {
         setValue(e.target.value)
         // @ts-ignore
-        if (inputText.current.value != "") {
+        if (inputText.current.value !== "") {
             // @ts-ignore
             inputText.current.style.borderColor = '#58a6ff'
         }
@@ -56,23 +61,24 @@ export const MainPage = () => {
         Animate(e)
         e.preventDefault();
         // @ts-ignore
-        if (inputText.current.value == "") {
+        if (inputText.current.value === "") {
             alert.error(`It shouldn't be empty!`);
             // @ts-ignore
             inputText.current.style.borderColor = 'red'
         } else {
-            Search()
+            Search(page)
             setTitle(value)
             localStorage.setItem('title', value)
         }
     }
 
-    const Search = () => {
-        value != "" ? dispatch(getReposThunk({
-            page: page,
+    const Search = (currentPage:number) => {
+        debugger
+        value !== "" ? dispatch(getReposThunk({
+            page: currentPage,
             query: value
         })) : localStorage.getItem("title") && dispatch(getReposThunk({
-            page: page,
+            page: currentPage,
             query: localStorage.getItem("title") as string
         }))
         // @ts-ignore
@@ -81,25 +87,19 @@ export const MainPage = () => {
 
 
     const FollowHandle = (e: any, i: number, name: string) => {
-        localStorage.getItem('followed') == undefined && localStorage.setItem('followed', JSON.stringify([]))
+        localStorage.getItem('followed') === undefined && localStorage.setItem('followed', JSON.stringify([]))
         let followed = JSON.parse(localStorage.getItem('followed') as string)
-        if (JSON.parse(localStorage.getItem('followed') as string).filter((e: number) => e == i).length > 0) {
-            e.target.style.color = "#388bfd"
-            followed = followed.filter((e: number) => e != i)
+        if (JSON.parse(localStorage.getItem('followed') as string).filter((e: number) => Number(e) === Number(i)).length > 0) {
+            e.target.innerHTML = "🖤"
+            followed = followed.filter((e: number) => Number(e) !== Number(i))
             localStorage.setItem('followed', JSON.stringify([...followed]))
             alert.error(`You stopped follow ${name}!`);
         } else {
-            e.target.style.color = "yellow"
+            e.target.innerHTML = "💛"
             localStorage.setItem('followed', JSON.stringify([...followed, i]))
             alert.success(`You started following ${name}!`)
         }
     }
-    const Followed = (id: number) => {
-        localStorage.getItem('followed') == undefined && localStorage.setItem('followed', JSON.stringify([]))
-        let followed: Array<number> = JSON.parse(localStorage.getItem('followed') as string)
-        return followed.filter((e) => e === id).length > 0
-    }
-
 
     // @ts-ignore
     const repos = useSelector((state: AppStateType) => state.GitHub.repos)
@@ -143,14 +143,14 @@ export const MainPage = () => {
             </div>
         </div>}
         {repos.length > 0 && <h2 {...settings} className={s.title}>
-            Results for {title != "" ? title : localStorage.getItem('title') && localStorage.getItem('title')}</h2>}
+            Results for {title !== "" ? title : localStorage.getItem('title') && localStorage.getItem('title')}</h2>}
         {total_count > 0 ?
-            <div className={s.repos}> {repos.map((i: RepoType) => <motion.div {...settings} className={s.repository}>
+            <div className={s.repos}> {repos.map((i: RepoType) => <motion.div key={i.id} {...settings} className={s.repository}>
                 <div className={s.data}>
                     <div className={s.avatar_wrapper}>
-                        <img {...settings} className={s.avatar} src={i.owner.avatar_url}/>
-                        <div onClick={(e) => FollowHandle(e, i.id, i.name)}
-                             className={[s.star, Followed(i.id) && s.follow].join(" ")}><FontAwesomeIcon icon={faStar}/>
+                        <img alt="avatar" {...settings} className={s.avatar} src={i.owner.avatar_url}/>
+                        <div ><p onClick={(e) => FollowHandle(e, i.id, i.name)}
+                             className={[s.fl].join(" ")}>{JSON.parse(localStorage.getItem('followed') as string).filter((e:number) => Number(e) === Number(i.id)).length > 0 ? "💛" : '🖤'}</p>
                         </div>
                     </div>
                     <div {...settings} >Name: {i.full_name}</div>
@@ -163,7 +163,6 @@ export const MainPage = () => {
                 </motion.div>
             </motion.div>)}
             </div> : <p className={s.nothing}>Sorry, but nothing was found, try something else...</p>}
-
         {repos.length > 0 && <div>
             <Pagination page={page} setPage={setPage} Search={Search}/>
         </div>}

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState} from 'react'
+import React, { useEffect, useState} from 'react'
 import s from './splash_hoc.module.css'
 import { motion } from "framer-motion"
 
@@ -6,7 +6,7 @@ export const SplashHOC = (Component:any) => {
     const [done, setDone] = useState<boolean>(false)
 
     useEffect(() => {
-        // MOCK WAITING
+        
       setTimeout(() => setDone(true), 3000)
     }, [])
     return (props: any) => {

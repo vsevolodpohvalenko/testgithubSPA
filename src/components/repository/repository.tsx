@@ -24,23 +24,23 @@ const Repository = (props: { match: { params: { id: number } } }) => {
         </div>
         <div className={s.user_data}>
             <div>
-                <img {...settings} className={s.user_avatar} src={repo.owner.avatar_url}/>
+                <img alt="avatar" {...settings} className={s.user_avatar} src={repo.owner.avatar_url}/>
             </div>
             <h1 style={{color: 'white'}} {...settings}>
                 {repo.owner.login}
             </h1>
-            <a  {...settings} target="_blank" href={repo.owner.html_url}> <input onClick={Animate} {...settings}
+            <a  {...settings} rel="noreferrer" target="_blank" href={repo.owner.html_url}> <input onClick={Animate} {...settings}
                                                                                  type="submit" name="commit"
                                                                                  value="Visit user"
                                                                                  className={[s.btn, s.btn_block].join(" ")}/>
                 <div>
-                    <a target="_blank" {...settings} href={repo.html_url}>
+                    <a target="_blank" rel="noreferrer" {...settings} href={repo.html_url}>
                         <input onClick={Animate}  {...settings} type="submit" name="commit" value="Visit repository"
                                className={[s.btn, s.btn_block].join(" ")}/>
                     </a>
                 </div>
                 <div>
-                    <a target="_blank" {...settings} href={repo.clone_url}>
+                    <a target="_blank" rel="noreferrer" {...settings} href={repo.clone_url}>
                         <input onClick={Animate} {...settings} type="submit" name="commit" value="Clone git"
                                className={[s.btn, s.btn_block].join(" ")}/>
                     </a>

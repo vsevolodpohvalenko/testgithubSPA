@@ -154,6 +154,7 @@ export const actions: { [key: string]: (...args: any) => any } = {
 
 export const getReposThunk = (props: {page: number, query: string}) => async (dispatch: Dispatch) => {
     try {
+        debugger
         dispatch(actions.changePage())
         let response = await gitAPI.getRepos(props)
         dispatch(actions.setTotalCount(response.data.total_count))
